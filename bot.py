@@ -1,10 +1,5 @@
-import string
-import time
+import string, time, main, json
 
-import main
-import json
-
-from main import SUPERUSER_IDS
 from filter import IsAdminFilter
 
 from aiogram import Bot, types
