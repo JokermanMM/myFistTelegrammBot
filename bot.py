@@ -121,7 +121,8 @@ async def re_ban(message: types.Message):
 async def ban_words(message: types.Message):
     if {i.lower().translate(str.maketrans('', '', string.punctuation)) for i in message.text.split(' ')} \
             .intersection(set(json.load(open('banwords.json')))) != set():
-        await message.answer('Сообщение было автоматически удалено.\nПричина: ты быдло!')
+        await message.answer('Сообщение было автоматически удалено.\nПричина: использование нецензурной лексики '
+                             'в чате запрещено!')
         await message.delete()
 
 
