@@ -1,4 +1,5 @@
 import string, time, main, json
+import requests
 
 from filter import IsAdminFilter
 
@@ -24,12 +25,6 @@ async def new_member(message: types.Message):
                          f'воспользоваться командой: /start \nGood luck, have fun')
 
 
-# /start reply
-"""@dp.message_handler(filters.CommandStart())
-async def command_start_handler(msg: types.Message):
-    await msg.answer(f"Привет. Я @{me.first_name}, и я могу тебе что-нибудь подсказать. Что тебя интересует ?")"""
-
-
 @dp.message_handler(commands='start')
 async def start_cmd_handler(message: types.Message):
     keyboard_markup = types.InlineKeyboardMarkup(row_width=2)
@@ -43,7 +38,7 @@ async def start_cmd_handler(message: types.Message):
 
     keyboard_markup.row(*row_btns)
     keyboard_markup.add(
-        types.InlineKeyboardButton('Dotabuff админа', url='https://ru.dotabuff.com/players/299539763'),
+        types.InlineKeyboardButton('GitHub админа', url='https://github.com/JokermanMM'),
     )
 
     me = await bot.get_me()
@@ -69,17 +64,13 @@ async def inline_kb_answer_callback_handler(query: types.CallbackQuery):
     await bot.send_message(query.message.chat.id, text)
 
 
-# echo function
-"""@dp.message_handler()
-async def echo(message: types.Message):
-    await message.answer(message.text)"""
-
-
 # get rules list
 @dp.message_handler(commands=["rules"], commands_prefix="/")
 async def rules(message: types.Message):
-    await message.reply(f'Правила чата:\n1. Запрещен мат.\n2. Это просто тестирование функционала, поэтому правила чата'
-                        f' будут постепенно дополняться с дополнением функционала бота. \nEnjoy!')
+    await message.reply(f'Правила чата:\n1. Запрещено использование нецензурной лексики.'
+                        f'\n2. Это просто тестирование функционала, поэтому правила чата'
+                        f' будут постепенно дополняться с дополнением функционала бота. '
+                        f'\nEnjoy!')
 
 
 # ban function
@@ -111,7 +102,7 @@ async def re_ban(message: types.Message):
     await bot.kick_chat_member(chat_id=message.chat.id, user_id=message.from_user.id)
 
 
-# bad words list
+# ban-words list
 @dp.message_handler()
 async def ban_words(message: types.Message):
     if {i.lower().translate(str.maketrans('', '', string.punctuation)) for i in message.text.split(' ')} \
